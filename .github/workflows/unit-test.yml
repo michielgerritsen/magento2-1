@@ -1,0 +1,24 @@
+name: Run the integration tests
+
+on: push
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Get the docker-compose.yml file
+        run: wget https://gist.githubusercontent.com/michielgerritsen/9247b2971158f45323cafc54b6bc18a1/raw/a036b5cfc42ad01658d1c296d5edd508cda82524/docker-compose.yml
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Upload our code into the docker container
+        run: docker cp . magento-project-community-edition:/data/extensions/ && docker exec magento-project-community-edition composer require mollie/magento2:@dev
+
+      - name: Run tests
+        run: docker exec magento-project-community-edition bash -c "vendor/bin/phpunit extensions/workdir/Test/Unit"
