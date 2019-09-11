@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Get the docker-compose.yml file
-        run: wget https://gist.githubusercontent.com/michielgerritsen/9247b2971158f45323cafc54b6bc18a1/raw/a1971e87bf105e47f2e092d3ac2448246c9f458c/docker-compose.yml
+        run: wget https://gist.githubusercontent.com/michielgerritsen/9247b2971158f45323cafc54b6bc18a1/raw/a036b5cfc42ad01658d1c296d5edd508cda82524/docker-compose.yml
 
       - name: Start docker
         run: docker-compose up -d
