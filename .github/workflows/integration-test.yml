@@ -13,7 +13,7 @@ jobs:
 
       - name: Start mysql docker container
         run:
-          docker run mysql:5.7
+          docker run -d mysql:5.7
           --build-arg MYSQL_ROOT_PASSWORD=root_password
           --build-arg MYSQL_DATABASE=magento-test
           --build-arg MYSQL_USER=magento
