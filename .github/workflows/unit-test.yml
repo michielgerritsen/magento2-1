@@ -17,5 +17,8 @@ jobs:
       - name: Upload our code into the docker container
         run: docker cp . magento-project-community-edition:/data/extensions/ && docker exec magento-project-community-edition composer require mollie/magento2:@dev
 
+      - name: List files
+        run: ls -al extensions && ls -al extensions/workdir
+
       - name: Run tests
         run: docker exec magento-project-community-edition bash -c "vendor/bin/phpunit extensions/workdir/Test/Unit"
