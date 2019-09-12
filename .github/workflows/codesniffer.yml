@@ -1,0 +1,15 @@
+name: Run the unit tests
+
+on: push
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Run codesniffer
+        run: docker run --rm -it --volume $(PWD)/:/app/data magento-ecg-coding-standard:latest vendor/bin/phpcs --standard=EcgM2 /app/data/ -p --ignore=*/Test/*
