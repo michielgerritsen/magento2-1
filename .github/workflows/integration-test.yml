@@ -11,19 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Start mysql docker container
-        run:
-          docker run -d mysql:5.7
-          --build-arg MYSQL_ROOT_PASSWORD=root_password
-          --build-arg MYSQL_DATABASE=magento-test
-          --build-arg MYSQL_USER=magento
-          --build-arg MYSQL_PASSWORD=magento
-
-      - name: Start Magento docker container
-        run:
-          docker run -t -d
-          --name magento-project-community-edition
-          michielgerritsen/magento-project-community-edition:php71-fpm-magento2.2.9
+      - name: Start Docker
+        run: docker-compose up -d -f .github/workflows/templates/docker-compose.yml
 
       - name: Upload our code into the docker container
         run: docker cp $(pwd) magento-project-community-edition:/data/extensions/ && docker exec magento-project-community-edition composer require mollie/magento2:@dev

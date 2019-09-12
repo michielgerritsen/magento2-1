@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: magento-test
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
+      MYSQL_SQL_TO_RUN: 'GRANT ALL ON *.* TO "root"@"%";'
+    tmpfs:
+      - /var/lib/mysql/:rw,noexec,nosuid,size=600m
+      - /tmp/:rw,noexec,nosuid,size=50m
+  web:
+    image: michielgerritsen/magento-project-community-edition:php71-fpm-magento2.2.9
+    container_name: magento-project-community-edition
+    depends_on:
+      - db
+    volumes:
+      - ./:/data/extensions/workdir
