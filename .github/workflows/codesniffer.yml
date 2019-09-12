@@ -8,8 +8,4 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Run codesniffer
-        run:
-          docker run
-          --volume $(PWD)/:/app/data
-          michielgerritsen/magento-ecg-coding-standard:latest
-          bash -c "vendor/bin/phpcs --standard=EcgM2 /app/data/ --ignore=*/Test/* --severity=6 -p"
+        run: docker run --volume $(PWD)/:/app/data michielgerritsen/magento-ecg-coding-standard:latest bash -c "vendor/bin/phpcs --standard=EcgM2 /app/data/ --ignore=*/Test/* --severity=6 -p"
