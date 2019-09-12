@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: List files
-        run: docker run --volume $(PWD)/:/app/data michielgerritsen/magento-ecg-coding-standard:latest bash -c "ls -al /app/data/"
+        run: docker run --volume $(pwd)/:/app/data michielgerritsen/magento-ecg-coding-standard:latest bash -c "ls -al /app/data/"
 
       - name: Run codesniffer
-        run: docker run --volume $(PWD)/:/app/data michielgerritsen/magento-ecg-coding-standard:latest bash -c "vendor/bin/phpcs --standard=EcgM2 /app/data/ --ignore=*/Test/* --severity=6 -p"
+        run: docker run --volume $(pwd)/:/app/data michielgerritsen/magento-ecg-coding-standard:latest bash -c "vendor/bin/phpcs --standard=EcgM2 /app/data/ --ignore=*/Test/* --severity=6 -p"
