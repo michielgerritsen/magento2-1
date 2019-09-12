@@ -1,4 +1,4 @@
-name: Run the unit tests
+name: Run Codesniffer with the Magento EcgM2 standard
 
 on: push
 
