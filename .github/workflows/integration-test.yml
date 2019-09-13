@@ -14,10 +14,10 @@ jobs:
 
       - name: Start Docker
         run:
+          PHP_VERSION=${{ matrix.PHP_VERSION }}
+          MAGENTO_VERSION=magento${{ matrix.MAGENTO_VERSION }}
           docker-compose
           -f .github/workflows/templates/docker-compose.yml
-          -e PHP_VERSION=${{ matrix.PHP_VERSION }}
-          -e MAGENTO_VERSION=magento${{ matrix.MAGENTO_VERSION }}
           up -d
 
       - name: Upload our code into the docker container
