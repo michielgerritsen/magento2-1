@@ -45,12 +45,19 @@ class PaymentFeeTest extends IntegrationTestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Tax/_files/tax_classes.php
      * @magentoDataFixture Magento/Checkout/_files/quote_with_payment_saved.php
      * @magentoConfigFixture current_store payment/mollie_methods_klarnasliceit/payment_surcharge 1,95
      * @magentoConfigFixture current_store payment/mollie_methods_klarnasliceit/payment_surcharge_tax_class 2
      */
     public function testReturnsTheCorrectExcludingTaxAmount()
     {
+        /** @var \Magento\Tax\Model\Calculation\Rule $firstTaxRuleFixture */
+        $firstTaxRuleFixture = $this->objectManager->get(\Magento\Framework\Registry::class)
+            ->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
+        $expectedFirstTaxRuleId = $firstTaxRuleFixture->getId();
+
         /** @var $session \Magento\Checkout\Model\Session  */
         $session = $this->objectManager->create(Session::class);
         $quote = $session->getQuote();
@@ -69,7 +76,7 @@ class PaymentFeeTest extends IntegrationTestCase
         $taxCalculation = $this->objectManager->create(\Magento\Tax\Model\ResourceModel\Calculation::class);
         $taxCalculation->getConnection()->insert($taxCalculation->getMainTable(), [
             'tax_calculation_rate_id' => $rate->getId(),
-            'tax_calculation_rule_id' => 1,
+            'tax_calculation_rule_id' => $expectedFirstTaxRuleId,
             'customer_tax_class_id' => $quote->getCustomerTaxClassId(),
             'product_tax_class_id' => 2,
         ]);

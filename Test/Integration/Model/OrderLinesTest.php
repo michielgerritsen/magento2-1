@@ -4,6 +4,7 @@ namespace Mollie\Payment\Model;
 
 use Magento\Sales\Api\Data\CreditmemoInterface;
 use Magento\Sales\Api\Data\CreditmemoItemInterface;
+use Mollie\Payment\Model\ResourceModel\OrderLines\Collection;
 use Mollie\Payment\Test\Integration\IntegrationTestCase;
 
 class OrderLinesTest extends IntegrationTestCase
@@ -70,8 +71,6 @@ class OrderLinesTest extends IntegrationTestCase
 
     public function testGetCreditmemoOrderLinesIncludesTheStoreCredit()
     {
-        $this->rollbackCreditmemos();
-
         $orderLine = $this->objectManager->get(\Mollie\Payment\Model\OrderLinesFactory::class)->create();
         $orderLine->setOrderId(999);
         $orderLine->setLineId('ord_abc123');
@@ -123,9 +122,9 @@ class OrderLinesTest extends IntegrationTestCase
         $this->assertEquals(1, $line['quantity']);
     }
 
-    private function rollbackCreditmemos()
+    public function tearDown()
     {
-        $collection = $this->objectManager->get(\Mollie\Payment\Model\ResourceModel\OrderLines\Collection::class);
+        $collection = $this->objectManager->create(Collection::class);
 
         foreach ($collection as $creditmemo) {
             $creditmemo->delete();
