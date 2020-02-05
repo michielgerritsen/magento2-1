@@ -16,7 +16,7 @@ jobs:
         run: PHP_VERSION=${{ matrix.PHP_VERSION }} MAGENTO_VERSION=magento${{ matrix.MAGENTO_VERSION }} docker-compose -f .github/workflows/templates/docker-compose.yml up -d
 
       - name: Upload our code into the docker container
-        run: docker cp $(pwd) magento-project-community-edition:/data/extensions/ && docker exec magento-project-community-edition composer require mollie/magento2:@dev
+        run: docker cp $(pwd) magento-project-community-edition:/data/extensions/ && docker exec magento-project-community-edition composer require mollie/magento2:@dev && php bin/magento setup:di:compile
 
       - name: Run tests
         run: docker exec magento-project-community-edition bash -c "cd /data/dev/tests/quick-integration/ && ../../../vendor/bin/phpunit"
