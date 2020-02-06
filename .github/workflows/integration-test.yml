@@ -20,3 +20,4 @@ jobs:
 
       - name: Run tests
         run: docker exec magento-project-community-edition bash -c "cd /data/dev/tests/integration/ && ../../../vendor/bin/phpunit"
+
